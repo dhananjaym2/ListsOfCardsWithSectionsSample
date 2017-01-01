@@ -5,14 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
+import com.listsofcardswithsectionssample.adapters.ListOfTrains_RecyclerViewAdapter;
 import com.listsofcardswithsectionssample.adapters.SectionOfDays_RecyclerViewAdapter;
 import com.listsofcardswithsectionssample.models.TrainDetail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * constant member variables
@@ -32,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * days(sections) to be shown in the top horizontal recyclerView
      */
-    String[] daysArray = new String[]{"A", "B"/*, "C", "D", "E"*/};
-
-//    private
+    String[] daysArray = new String[]{"A", "B", "C", "D", "E"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * fareAmount data for day A
          */
-        int[] day_A_fareAmount = new int[]{10, 20, 50, 70, 80, 90};
+        int[] day_A_fareAmount = new int[]{10, 2, 50, 70, 80, 90};
 
         /**
          * trainNumber data for day B
@@ -118,9 +118,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setAdaptersForDataToShow() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView_sectionOfDays.setLayoutManager(linearLayoutManager);
-        recyclerView_sectionOfDays.setAdapter(new SectionOfDays_RecyclerViewAdapter(this, daysArray));
+
+        /**
+         * Horizontal Recycler View showing section/day title
+         */
+        LinearLayoutManager linearLayoutManager_SectionOfDays = new LinearLayoutManager(this);
+        linearLayoutManager_SectionOfDays.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView_sectionOfDays.setLayoutManager(linearLayoutManager_SectionOfDays);
+        recyclerView_sectionOfDays.setAdapter(new SectionOfDays_RecyclerViewAdapter(this, daysArray, this));
+
+        /**
+         * Vertical Recycler View showing List Of Trains
+         */
+        LinearLayoutManager linearLayoutManager_ListOfTrains = new LinearLayoutManager(this);
+        linearLayoutManager_ListOfTrains.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView_listOfTrains.setLayoutManager(linearLayoutManager_ListOfTrains);
+        setAdapter_ListOfTrains_Vertical_RecyclerView(0);
+    }
+
+    private void setAdapter_ListOfTrains_Vertical_RecyclerView(int positionOfSectionDays) {
+
+        if (recyclerView_listOfTrains != null) {
+
+            if (daysArray.length >= positionOfSectionDays) {
+
+                if (hashMapDayWiseTrainDetailArrayList.containsKey(daysArray[positionOfSectionDays])) {
+
+                    recyclerView_listOfTrains.setAdapter(new ListOfTrains_RecyclerViewAdapter(hashMapDayWiseTrainDetailArrayList.get(daysArray[positionOfSectionDays])));
+                } else
+                    Log.e(LOG_TAG, "false from hashMapDayWiseTrainDetailArrayList.containsKey(daysArray[positionOfSectionDays])");
+            } else
+                Log.e(LOG_TAG, "false from daysArray.length:" + daysArray.length + " <= positionOfSectionDays:" + positionOfSectionDays);
+        } else
+            Log.e(LOG_TAG, "recyclerView_listOfTrains null");
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.sectionTitle_section_item_recycler_view_horizontal:
+                Log.v(LOG_TAG, "sectionTitle_section_item_recycler_view_horizontal clicked:"
+                        + daysArray[(int) v.getTag()]);
+                setAdapter_ListOfTrains_Vertical_RecyclerView((int) v.getTag());
+                break;
+        }
     }
 }

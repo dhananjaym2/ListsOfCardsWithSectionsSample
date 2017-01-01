@@ -12,9 +12,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
+    <View
+        android:id="@+id/view_Separator_gray"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/recyclerView_sectionOfDays"
+        android:background="@color/gray_separator" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_listOfTrains"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/recyclerView_sectionOfDays" />
+        android:layout_below="@+id/view_Separator_gray" />
 </RelativeLayout>

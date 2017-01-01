@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="section_title_textSize">18sp</dimen>
     <dimen name="padding_sectionTitle">15dp</dimen>
+    <dimen name="padding_train_number_list_of_trains">15dp</dimen>
+    <dimen name="cardView_margin">5dp</dimen>
 </resources>
