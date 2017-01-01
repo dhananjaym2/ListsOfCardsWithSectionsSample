@@ -12,6 +12,8 @@ import com.listsofcardswithsectionssample.adapters.SectionOfDays_RecyclerViewAda
 import com.listsofcardswithsectionssample.models.TrainDetail;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -144,7 +146,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (hashMapDayWiseTrainDetailArrayList.containsKey(daysArray[positionOfSectionDays])) {
 
-                    recyclerView_listOfTrains.setAdapter(new ListOfTrains_RecyclerViewAdapter(hashMapDayWiseTrainDetailArrayList.get(daysArray[positionOfSectionDays])));
+                    /**
+                     * sort the arrayList in hashMap at the clicked position
+                     */
+                    Collections.sort(hashMapDayWiseTrainDetailArrayList.get(daysArray[positionOfSectionDays]), new Comparator<TrainDetail>() {
+                        @Override
+                        public int compare(TrainDetail lhs, TrainDetail rhs) {
+                            return ((Integer) lhs.getFareAmount()).compareTo(rhs.getFareAmount());
+                        }
+                    });
+
+                    recyclerView_listOfTrains.setAdapter(
+                            new ListOfTrains_RecyclerViewAdapter(hashMapDayWiseTrainDetailArrayList.get(daysArray[positionOfSectionDays])));
                 } else
                     Log.e(LOG_TAG, "false from hashMapDayWiseTrainDetailArrayList.containsKey(daysArray[positionOfSectionDays])");
             } else
