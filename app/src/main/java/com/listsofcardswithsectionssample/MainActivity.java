@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /**
          * fareAmount data for day B
          */
-        int[] day_B_fareAmount = new int[]{20, 60, 80, 100};
+        int[] day_B_fareAmount = new int[]{200, 600, 80, 100};
 
         /**
          * for each day in daysArray[] add corresponding data
